@@ -1,4 +1,4 @@
-package it.maggioli.pagopa.pagonet;
+package it.maggioli.pagopa.pagonet.jppanotify;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
