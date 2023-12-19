@@ -16,8 +16,9 @@
   </parent> -->
 
   <properties>
-    <maven.compiler.source>11</maven.compiler.source>
-    <maven.compiler.target>11</maven.compiler.target>
+    <java.version>19</java.version>
+    <maven.compiler.source>19</maven.compiler.source>
+    <maven.compiler.target>19</maven.compiler.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <cxf.version>4.0.3</cxf.version>
@@ -28,6 +29,15 @@
    <build>
       <finalName>jppa-notify</finalName>
       <plugins>
+
+         <plugin>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <version>3.5.1</version>
+            <configuration>
+               <source>${java.version}</source>
+               <target>${java.version}</target>
+            </configuration>
+         </plugin>
 
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
@@ -44,7 +54,7 @@
           </executions>
           <configuration>
               <sources>
-                <source>src/main/resources/soap</source>
+                <source>src/main/resources/soap/xsd</source>
               </sources>
           </configuration>
         </plugin>
@@ -69,6 +79,43 @@
                </execution>
             </executions>
          </plugin>
+
+         <plugin>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-codegen-plugin</artifactId>
+            <version>${cxf.version}</version>
+            <configuration>
+               <fork>once</fork>
+               <additionalJvmArgs>-Djava.endorsed.dirs="${project.build.directory}"/endorsed</additionalJvmArgs>
+               <additionalJvmArgs>-Djavax.xml.accessExternalSchema=all</additionalJvmArgs>
+               <encoding>UTF-8</encoding>
+            </configuration>
+            <executions>
+               <execution>
+                  <id>generate-sources</id>
+                  <phase>generate-sources</phase>
+                  <configuration>
+                     <sourceRoot>${project.build.directory}/generated-sources/cxf</sourceRoot>
+                     <wsdlOptions>
+                        <wsdlOption>
+                           <wsdl>${basedir}/src/main/resources/soap/wsdl/pago-pa-notify.wsdl</wsdl>
+                           <wsdlLocation>classpath:soap/wsdl/pago-pa-notify.wsdl</wsdlLocation>
+                           <!-- <extraargs>
+                              <extraarg>-frontend</extraarg>
+                              <extraarg>jaxws21</extraarg>
+                              <extraarg>-client</extraarg>
+                              <extraarg>-verbose</extraarg>
+                           </extraargs> -->
+                        </wsdlOption>
+                     </wsdlOptions>
+                  </configuration>
+                  <goals>
+                     <goal>wsdl2java</goal>
+                  </goals>
+               </execution>
+            </executions>
+         </plugin>
+
 
       </plugins>
     </build>
