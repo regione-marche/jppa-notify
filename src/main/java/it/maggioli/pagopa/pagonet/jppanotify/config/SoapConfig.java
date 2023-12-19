@@ -3,6 +3,10 @@ package it.maggioli.pagopa.pagonet.jppanotify.config;
 import java.util.Arrays;
 
 import org.apache.cxf.Bus;
+
+// import it.gov.pagopa.pagopa_api.pafornode.PaForNode;
+
+import org.apache.cxf.ext.logging.LoggingFeature;
 import org.apache.cxf.jaxws.EndpointImpl;
 import org.apache.cxf.transport.servlet.CXFServlet;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,10 +15,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-// import it.gov.pagopa.pagopa_api.pafornode.PaForNode;
-
-import org.apache.cxf.ext.logging.LoggingFeature;
-
+import it.maggioli.pagopa.pagonet.jppanotify.api.soap.NotifyEndpoint;
 import jakarta.servlet.Servlet;
 
 @Configuration
@@ -24,7 +25,7 @@ public class SoapConfig
 	private Bus bus;
 	
 	@Autowired
-	// private PaForNode mgpInternalFacet;
+	private NotifyEndpoint notifyEndpoint;
 	
 	@Bean
 	public ServletRegistrationBean<Servlet> servletRegistrationBean(ApplicationContext context) 
@@ -40,7 +41,7 @@ public class SoapConfig
 		
 		bus.setFeatures(Arrays.asList(loggingFeature));
 		
-		EndpointImpl endpoint = new EndpointImpl(bus, null);
+		EndpointImpl endpoint = new EndpointImpl(bus, notifyEndpoint);
 		endpoint.publish("/notify");
 		
 		return endpoint;
