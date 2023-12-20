@@ -19,6 +19,11 @@ public class NotifyEndpoint implements PagoPANotifyEndpoint {
     @Override
     public RispostaStandard notificaPagamentoDebito(RichiestaStandard notificaPagamentoDebitoRequest) {
         // TODO Auto-generated method stub
+
+        //insert RichiestaStandard in to database with hibernate
+        
+
+
         throw new UnsupportedOperationException("Unimplemented method 'notificaPagamentoDebito'");
     }
 
