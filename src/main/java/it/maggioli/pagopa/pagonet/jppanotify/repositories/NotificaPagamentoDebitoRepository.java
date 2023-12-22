@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -13,9 +14,15 @@ import org.springframework.data.repository.query.FluentQuery.FetchableFluentQuer
 import org.springframework.stereotype.Repository;
 
 import it.maggioli.pagopa.pagonet.jppanotify.entities.NotificaPagamentoDebitoEntity;
+import jakarta.persistence.EntityManager;
+import jakarta.transaction.Transactional;
 
+@Transactional
 @Repository
 public class NotificaPagamentoDebitoRepository implements JpaRepository<NotificaPagamentoDebitoEntity, Long> {
+
+    @Autowired
+    private EntityManager entityManager;
 
     @Override
     public <S extends NotificaPagamentoDebitoEntity> List<S> saveAll(Iterable<S> entities) {
@@ -38,9 +45,8 @@ public class NotificaPagamentoDebitoRepository implements JpaRepository<Notifica
     @Override
     public <S extends NotificaPagamentoDebitoEntity> S save(S entity) {
         // save entity in to database with jpa
-        
-
-        throw new UnsupportedOperationException("Unimplemented method 'save'");
+        entityManager.persist(entity);
+        return entity;
     }
 
     @Override

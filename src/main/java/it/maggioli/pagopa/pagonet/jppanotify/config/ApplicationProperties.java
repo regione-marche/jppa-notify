@@ -11,14 +11,6 @@ import lombok.Setter;
 @Configuration
 public class ApplicationProperties {
 
-    @Value( "${postgres.driver}" )
-    private String postgresDriver;
-    @Value( "${postgres.url}" )
-    private String postgresUrl;
-    @Value( "${postgres.username}" )
-    private String postgresUsername;
-    @Value( "${postgres.password}" )
-    private String postgresPassword;
 
 }
 
