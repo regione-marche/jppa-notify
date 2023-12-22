@@ -1,3 +1,8 @@
 target/
 .vscode/
 docker/data/
+bin/
+.project
+.classpath
+.settings/
+META-INF/
