@@ -1,5 +1,6 @@
 package it.maggioli.pagopa.pagonet.jppanotify.api.soap;
 
+import java.net.URL;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
@@ -10,14 +11,18 @@ import javax.xml.datatype.XMLGregorianCalendar;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.seda.commons.logger.CustomLoggerManager;
+import com.seda.commons.logger.LoggerWrapper;
+
 import it.maggioli.informatica.schemi.ws.pagopa.notify.PagoPANotifyEndpoint;
 import it.maggioli.informatica.schemi.ws.pagopa.notify.RichiestaStandard;
 import it.maggioli.informatica.schemi.ws.pagopa.notify.RispostaStandard;
 import it.maggioli.pagopa.pagonet.jppanotify.services.NotificaPagamentoDebitoService;
 
-
 @Service
 public class NotifyEndpoint implements PagoPANotifyEndpoint {
+
+	private static LoggerWrapper log = CustomLoggerManager.get(NotifyEndpoint.class);
 
 	@Autowired
 	private NotificaPagamentoDebitoService notificaPagamentoDebitoService;
@@ -30,25 +35,30 @@ public class NotifyEndpoint implements PagoPANotifyEndpoint {
 
     @Override
     public RispostaStandard notificaPagamentoDebito(RichiestaStandard notificaPagamentoDebitoRequest) {
-        // TODO Auto-generated method stub
-
         //insert RichiestaStandard in to database with hibernate
-//        throw new UnsupportedOperationException("Unimplemented method 'notificaPagamentoDebito'");
     	
+    	URL resource = getClass().getClassLoader().getResource("log4j2-spring.xml");
+    	if (resource != null) {
+    	    System.out.println("File log4j2.xml trovato nel classpath: " + resource.getFile());
+    	} else {
+    	    System.out.println("File log4j2.xml NON trovato nel classpath.");
+    	}
     	
+    	log.debug("debug");
+    	log.error("error");
+    	log.info("info");
 		try {
 			// TODO
 	    	notificaPagamentoDebitoService.saveNotificaPagamentoDebitoEntity(notificaPagamentoDebitoRequest);
-
+   
 			RispostaStandard risposta = new RispostaStandard();
 	    	risposta.setCodiceIPA(notificaPagamentoDebitoRequest.getCodiceIPA());
 	    	
-	    	GregorianCalendar c = new GregorianCalendar();
-	    	c.setTime(new Date());
-	    	XMLGregorianCalendar date2;
-			date2 = DatatypeFactory.newInstance().newXMLGregorianCalendar(c);
+	    	GregorianCalendar gc = new GregorianCalendar();
+	    	gc.setTime(new Date());
+	    	XMLGregorianCalendar date = DatatypeFactory.newInstance().newXMLGregorianCalendar(gc);
 			
-	    	risposta.setDataRisposta(date2);
+	    	risposta.setDataRisposta(date);
 	    	risposta.setEsitoOperazione(null);
 	    	risposta.setIDOperazione(null);
 	    	risposta.setMessaggi(null);
@@ -59,8 +69,5 @@ public class NotifyEndpoint implements PagoPANotifyEndpoint {
   	   		
 		return null;
     }
-
-    
-
 
 }

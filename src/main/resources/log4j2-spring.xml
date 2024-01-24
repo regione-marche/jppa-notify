@@ -7,9 +7,9 @@
         <Console name="STDOUT" target="SYSTEM_OUT">
             <PatternLayout pattern="${LOG_PATTERN}"/>
         </Console>
-        <RollingFile name="com-seda-cart-ws"
-                	  fileName="${sys:jboss.server.log.dir}/com-seda-cart-ws.log"
-                	  filePattern="%d{yyyy-MM-dd}-com-seda-cart-ws.%i.log.gz"
+        <RollingFile name="jppa-notify"
+                	  fileName="C:/work/git/jppa-notify/log/jppa-notify.log"
+                	  filePattern="%d{yyyy-MM-dd}-jppa-notify.%i.log.gz"
                 	  ignoreExceptions="false" filePermissions="rw-rw-r--">
             <PatternLayout pattern="${LOG_PATTERN}"/>
 			<!-- <JsonTemplateLayout eventTemplateUri="classpath:ElasticsearchJsonEventLayoutV1.json"/> -->
@@ -19,9 +19,9 @@
             <!-- <DefaultRolloverStrategy max="10" /> -->
             <ThresholdFilter level="INFO"/>
         </RollingFile>
-        <RollingFile name="com-seda-cart-ws-error"
-                	 fileName="${sys:jboss.server.log.dir}/com-seda-cart-ws-error.log"
-                	 filePattern="com-seda-cart-ws-error.%i.log"
+        <RollingFile name="jppa-notify-error"
+                	 fileName="C:/work/git/jppa-notify/log/jppa-notify-error.log"
+                	 filePattern="jppa-notify-error.%i.log"
                      ignoreExceptions="false" filePermissions="rw-rw-r--">
 			<JsonTemplateLayout eventTemplateUri="classpath:ElasticsearchJsonEventLayoutV1.json"/>
             <Policies>
@@ -31,10 +31,10 @@
         </RollingFile>
     </Appenders>
     <Loggers>
-		<Logger name="com.seda.cart" level="DEBUG" additivity="false">
-			<AppenderRef ref="com-seda-cart-ws" />
+		<Logger name="it.maggioli.pagopa.pagonet.jppanotify" level="DEBUG" additivity="false">
+			<AppenderRef ref="jppa-notify" />
             <!-- <AppenderRef ref="com-seda-cart-ws-debug" /> -->
-            <AppenderRef ref="com-seda-cart-ws-error" />
+            <AppenderRef ref="jppa-notify-error" />
 		</Logger>         
         <Root level="INFO" >
             <AppenderRef ref="STDOUT" />

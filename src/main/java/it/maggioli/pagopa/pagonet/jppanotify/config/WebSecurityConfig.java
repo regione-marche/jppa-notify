@@ -26,9 +26,9 @@ public class WebSecurityConfig
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception 
     {
-        http.csrf((csrf) -> csrf.disable());
+        http.csrf(csrf -> csrf.disable());
 
-        // enable all htttp requests
+        // enable all http requests
         http.authorizeRequests().anyRequest().permitAll();
         // http.authorizeHttpRequests()
         
